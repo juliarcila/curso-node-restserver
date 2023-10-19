@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import { router } from '../routes/usuarios.mjs';
+import { dbConection } from '../database/config.mjs';
 
 class Server{
 
@@ -12,6 +13,9 @@ class Server{
 
         //Midelwares
         this.midelware();
+
+        //Conexión a la base de datos
+        this.conectionDB();
 
         // Rutas de mi aplicación
         this.routes();
@@ -25,6 +29,10 @@ class Server{
         this.app.listen(this.port, () => {
             console.log(`Esta escuchando por el puerto ${ this.port }`);
         })
+    }
+
+    async conectionDB(){
+        await dbConection();
     }
 
     midelware(){
