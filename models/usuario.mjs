@@ -35,8 +35,8 @@ const usuarioSchema =  Schema({
 
 //Esto lo hacemos para obtener los datos de nuestra base de datos y retornar solo lo que necesitamos
 usuarioSchema.methods.toJSON = function(){
-    const {password, ...usuario} = this.toObject();
-
+    const {password, _id, __v, ...usuario} = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 

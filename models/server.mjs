@@ -3,13 +3,16 @@ import cors from 'cors'
 
 import { router } from '../routes/usuarios.mjs';
 import { dbConection } from '../database/config.mjs';
+import { routerAuth } from '../routes/auth.mjs';
 
 class Server{
 
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
+
         this.usuariosPath = '/api/usuarios';
+        this.pathAuth = '/api/auth'
 
         //Midelwares
         this.midelware();
@@ -22,6 +25,7 @@ class Server{
     }
 
     routes(){
+        this.app.use( this.pathAuth, routerAuth );
         this.app.use( this.usuariosPath, router );
     }
 

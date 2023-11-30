@@ -3,8 +3,11 @@ import { Router } from "express";
 import { usuariosDELETE, usuariosGET, usuariosPATCH, usuariosPOST, usuariosPUT } from "../controller/usuarios.mjs";
 import { check } from "express-validator";
 
-import { validarCampos } from "../middlewares/validar-campos.mjs";
 import  {esRoleValido, correoExistente, existeUsuarioPorId} from "../helpers/bd-validaciones.mjs";
+
+import { validarCampos } from "../middlewares/validar-campos.mjs";
+import { validarJWT } from "../middlewares/validar-jwt.mjs";
+import { esAdminRole, tieneRole } from "../middlewares/validar-rol.mjs";
 
 
 const router = Router();
@@ -37,7 +40,11 @@ router.put('/:id',[
 
 router.patch('/', usuariosPATCH);
 
+
 router.delete('/:id',[
+    validarJWT,
+    //esAdminRole,
+    tieneRole('USER_ROLE', 'VENTAS_ROLE'),
     check('id',`No es un ID válido`).isMongoId(), //Esta validación solo nos dice si es un id de mongo válido
     check('id').custom(existeUsuarioPorId),
     validarCampos

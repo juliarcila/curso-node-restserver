@@ -89,6 +89,8 @@ const usuariosDELETE = async (req, res = Response) => {
     //Esto inactiva el usuario
     const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
 
+    //obtener usuario autenticado
+
     res.json({
         usuario
     })
